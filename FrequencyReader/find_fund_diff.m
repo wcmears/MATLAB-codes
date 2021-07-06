@@ -1,14 +1,14 @@
-function find_fund_diff(filename,fs)
-    fft_size = 4096;
-    signal = audioread(filename);
-    spectrum = fft( signal(numel(signal)/4:(numel(signal)/4)+fft_size), fft_size);
-    f = (0:fft_size/2-1)*fs/fft_size;
-    figure(1);
-    z = abs(spectrum(1:fft_size/2));
-    bar(f, z);
+function find_fund_diff(filename,fs) %input filename and samples per second
+    fft_size = 4096; #set fft samples per estimate
+    signal = audioread(filename); #read in signal
+    spectrum = fft( signal(numel(signal)/4:(numel(signal)/4)+fft_size), fft_size); #take spectrum of signal
+    f = (0:fft_size/2-1)*fs/fft_size; #calculate array of frequency samples
+    figure(1); #show signal
+    z = abs(spectrum(1:fft_size/2)); #take fft
+    bar(f, z); #show fft
     xlabel('Frequency (Hz.)');
     ylabel('Amplitude');
-    threshold = max(abs(spectrum(1:fft_size/2)))*.01;
+    threshold = max(abs(spectrum(1:fft_size/2)))*.01; #set threshold so minimal peaks are not counted
     indices = 0;
      j = 0;
      u = 0;
